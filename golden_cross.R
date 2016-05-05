@@ -27,13 +27,16 @@ require('quantmod')
 SPY <- getSymbols('SPY', from='2014-01-01', auto.assign = FALSE)
 
 head(SPY$SPY.Close)
-calc_ma <- function (a) {
-  return(a)  
-}
-tes <- head(SPY$SPY.Close)
 
-diff(tes)
+MA50 <- rollapply(SPY$SPY.Close, width = 50, FUN = mean, by.column = FALSE, align = 'right')
+MA200 <- rollapply(SPY$SPY.Close, width = 200, FUN = mean, by.column = TRUE, align = 'right')
 
-rollapply(tes, width = 3, FUN = calc_ma, by.column = TRUE, align = 'right')
+MA50200 <- cbind(MA50, MA200)
+names(MA50200) <- c('MA50', 'MA200')
+head(MA50200,10)
 
+Lag
+
+ifelse(MA50200$MA50 > MA50200$MA200, 1, 0)
+Lag(ifelse(MA50200$MA50 > MA50200$MA200, 1, 0))
 
